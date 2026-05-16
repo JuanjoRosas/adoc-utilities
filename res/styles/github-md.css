@@ -15,7 +15,21 @@
   --color-code-bg: rgba(175, 184, 193, 0.2);
   --color-pre-bg: #f6f8fa;
 
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-important: #8250df;
+  --color-caution: #cf222e;
+
+
   --toc-width: 280px;
+  --content-width: 980px;
+  --content-padding-x: 72px;
+  --content-padding-x-mobile: 16px;
+
+  /* Nuevo padding exclusivo para el texto del footer */
+  --footer-padding-x: 32px;
+  --footer-padding-x-mobile: 16px;
 }
 
 /* Tema oscuro */
@@ -29,6 +43,12 @@
   --color-link-hover: #79c0ff;
   --color-code-bg: rgba(110, 118, 129, 0.4);
   --color-pre-bg: #161b22;
+
+  --color-note: #58a6ff;
+  --color-tip: #3fb950;
+  --color-warning: #d29922;
+  --color-important: #bc8cff;
+  --color-caution: #f85149;
 }
 
 /* ==========================================================================
@@ -85,8 +105,10 @@ img {
 #content,
 #footnotes {
   max-width: var(--content-width);
-  margin: 0 auto;
-  padding: 0 32px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--content-padding-x);
+  padding-right: var(--content-padding-x);
 }
 
 #content {
@@ -96,14 +118,16 @@ img {
 
 #footer {
   margin-top: 48px;
-  padding: 24px 32px;
+  padding: 24px 0; /* sin padding horizontal */
   border-top: 1px solid var(--color-border);
   background: var(--color-bg-secondary);
 }
 
 #footer-text {
-  max-width: var(--content-width);
+  max-width: none;
   margin: 0 auto;
+  padding-left: var(--footer-padding-x, 32px);
+  padding-right: var(--footer-padding-x, 32px);
   color: var(--color-text-muted);
   font-size: 0.875rem;
 }
@@ -132,7 +156,7 @@ img {
 
 @media (min-width: 1280px) {
   body.toc2.toc-right {
-    padding-right: calc(var(--toc-width) + 80px);
+    padding-right: var(--toc-width);
   }
 
   #toc.toc2 {
@@ -405,6 +429,43 @@ tr:nth-child(even) {
   color: var(--color-caution);
 }
 
+
+/* ==========================================================================
+   Iconos de admoniciones (Font Awesome 4.7)
+   ========================================================================== */
+
+.admonitionblock td.icon .icon-note::before,
+.admonitionblock td.icon .icon-tip::before,
+.admonitionblock td.icon .icon-warning::before,
+.admonitionblock td.icon .icon-important::before,
+.admonitionblock td.icon .icon-caution::before {
+  font-family: FontAwesome;
+  font-size: 2rem;
+  display: inline-block;
+  line-height: 1;
+}
+
+/* Íconos específicos */
+.admonitionblock td.icon .icon-note::before {
+  content: "\f05a"; /* info-circle */
+}
+
+.admonitionblock td.icon .icon-tip::before {
+  content: "\f0eb"; /* lightbulb-o */
+}
+
+.admonitionblock td.icon .icon-warning::before {
+  content: "\f071"; /* exclamation-triangle */
+}
+
+.admonitionblock td.icon .icon-important::before {
+  content: "\f06a"; /* exclamation-circle */
+}
+
+.admonitionblock td.icon .icon-caution::before {
+  content: "\f06d"; /* fire */
+}
+
 /* ==========================================================================
    Example / Sidebar
    ========================================================================== */
@@ -483,9 +544,14 @@ h6:hover > a.anchor {
   #header,
   #content,
   #footnotes,
-  #footer {
-    padding-left: 16px;
-    padding-right: 16px;
+  #footnotes {
+    padding-left: var(--content-padding-x-mobile);
+    padding-right: var(--content-padding-x-mobile);
+  }
+
+  #footer-text {
+    padding-left: var(--footer-padding-x-mobile);
+    padding-right: var(--footer-padding-x-mobile);
   }
 
   #header > h1 {

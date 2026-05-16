@@ -24,7 +24,21 @@
   --color-code-bg: rgba(175, 184, 193, 0.2);
   --color-pre-bg: #f6f8fa;
 
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-important: #8250df;
+  --color-caution: #cf222e;
+
+
   --toc-width: 280px;
+  --content-width: 980px;
+  --content-padding-x: 72px;
+  --content-padding-x-mobile: 16px;
+
+  /* Nuevo padding exclusivo para el texto del footer */
+  --footer-padding-x: 32px;
+  --footer-padding-x-mobile: 16px;
 }
 
 /* Tema oscuro */
@@ -38,6 +52,12 @@
   --color-link-hover: #79c0ff;
   --color-code-bg: rgba(110, 118, 129, 0.4);
   --color-pre-bg: #161b22;
+
+  --color-note: #58a6ff;
+  --color-tip: #3fb950;
+  --color-warning: #d29922;
+  --color-important: #bc8cff;
+  --color-caution: #f85149;
 }
 
 /* ==========================================================================
@@ -94,8 +114,10 @@ img {
 #content,
 #footnotes {
   max-width: var(--content-width);
-  margin: 0 auto;
-  padding: 0 32px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--content-padding-x);
+  padding-right: var(--content-padding-x);
 }
 
 #content {
@@ -105,14 +127,16 @@ img {
 
 #footer {
   margin-top: 48px;
-  padding: 24px 32px;
+  padding: 24px 0; /* sin padding horizontal */
   border-top: 1px solid var(--color-border);
   background: var(--color-bg-secondary);
 }
 
 #footer-text {
-  max-width: var(--content-width);
+  max-width: none;
   margin: 0 auto;
+  padding-left: var(--footer-padding-x, 32px);
+  padding-right: var(--footer-padding-x, 32px);
   color: var(--color-text-muted);
   font-size: 0.875rem;
 }
@@ -141,7 +165,7 @@ img {
 
 @media (min-width: 1280px) {
   body.toc2.toc-right {
-    padding-right: calc(var(--toc-width) + 80px);
+    padding-right: var(--toc-width);
   }
 
   #toc.toc2 {
@@ -414,6 +438,43 @@ tr:nth-child(even) {
   color: var(--color-caution);
 }
 
+
+/* ==========================================================================
+   Iconos de admoniciones (Font Awesome 4.7)
+   ========================================================================== */
+
+.admonitionblock td.icon .icon-note::before,
+.admonitionblock td.icon .icon-tip::before,
+.admonitionblock td.icon .icon-warning::before,
+.admonitionblock td.icon .icon-important::before,
+.admonitionblock td.icon .icon-caution::before {
+  font-family: FontAwesome;
+  font-size: 2rem;
+  display: inline-block;
+  line-height: 1;
+}
+
+/* Íconos específicos */
+.admonitionblock td.icon .icon-note::before {
+  content: "\f05a"; /* info-circle */
+}
+
+.admonitionblock td.icon .icon-tip::before {
+  content: "\f0eb"; /* lightbulb-o */
+}
+
+.admonitionblock td.icon .icon-warning::before {
+  content: "\f071"; /* exclamation-triangle */
+}
+
+.admonitionblock td.icon .icon-important::before {
+  content: "\f06a"; /* exclamation-circle */
+}
+
+.admonitionblock td.icon .icon-caution::before {
+  content: "\f06d"; /* fire */
+}
+
 /* ==========================================================================
    Example / Sidebar
    ========================================================================== */
@@ -492,9 +553,14 @@ h6:hover > a.anchor {
   #header,
   #content,
   #footnotes,
-  #footer {
-    padding-left: 16px;
-    padding-right: 16px;
+  #footnotes {
+    padding-left: var(--content-padding-x-mobile);
+    padding-right: var(--content-padding-x-mobile);
+  }
+
+  #footer-text {
+    padding-left: var(--footer-padding-x-mobile);
+    padding-right: var(--footer-padding-x-mobile);
   }
 
   #header > h1 {
@@ -515,7 +581,7 @@ h6:hover > a.anchor {
 }
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<script src="res/scripts/themeSwitcher.js"></script>
+<script src="res/scripts/theme-switcher.js"></script>
 </head>
 <body class="article toc2 toc-right">
 <div id="header">
@@ -549,6 +615,7 @@ h6:hover > a.anchor {
 <ul class="sectlevel2">
 <li><a href="#_spell_check">Spell Check</a></li>
 <li><a href="#_script_inicialización">Script inicialización</a></li>
+<li><a href="#_script_descarga_recursos">Script descarga recursos</a></li>
 </ul>
 </li>
 </ul>
@@ -879,7 +946,10 @@ El resultado (HTML o PDF) se genera en una subcarpeta <code>exports/</code> dent
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code># =============================================================
+<pre class="highlight"><code>#!/usr/bin bash
+set -euo pipefail
+
+# =============================================================
 #  adoc-init — Inicializa la estructura de carpetas para un
 #              proyecto AsciiDoc en el directorio actual.
 #
@@ -897,7 +967,7 @@ RESOURCES_DIR="$TARGET_DIR/res"
 DOCINFO_DIR="$RESOURCES_DIR/docinfo"
 SCRIPTS_DIR="$RESOURCES_DIR/scripts"
 
-SCRIPTS_REDIR_DOCSINFO="../scripts"
+SCRIPTS_REDIR="res/scripts"
 
 ADOC_FILE="$TARGET_DIR/$DOC_NAME.adoc"
 DOCINFO_FILE="$DOCINFO_DIR/$DOC_NAME-docinfo.html"
@@ -939,7 +1009,7 @@ EOF
 
 #-----------------------DOCINFO CREATION-----------------------
 cat &gt; "$DOCINFO_FILE" &lt;&lt;EOF
-&lt;script src="$SCRIPTS_REDIR/someScript.js"&gt;&lt;/script&gt;
+&lt;script src="$SCRIPTS_REDIR/some-script.js"&gt;&lt;/script&gt;
 EOF
 #-----------------------EOF DOCINFO CREATION-----------------------
 
@@ -991,12 +1061,102 @@ echo "Listo."</code></pre>
 </ol>
 </div>
 </div>
+<div class="sect2">
+<h3 id="_script_descarga_recursos">Script descarga recursos</h3>
+<div class="paragraph">
+<p>El siguiente es un script para descargar desde el repositorio actual archivos .css y .js.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>#!/usr/bin bash
+set -euo pipefail
+
+# ============================================================================
+# adoc-get
+# ----------------------------------------------------------------------------
+# Descarga recursos del repositorio:
+# https://github.com/JuanjoRosas/adoc-utilities
+#
+# Uso:
+#   adoc-get style  github-theme.css
+#   adoc-get script theme-switcher.js
+#
+# Archivos descargados en:
+#   ./res/styles/&lt;archivo&gt;
+#   ./res/scripts/&lt;archivo&gt;
+# ============================================================================
+
+REPO_BASE="https://raw.githubusercontent.com/JuanjoRosas/adoc-utilities/main/res"
+
+show_help() {
+  cat &lt;&lt;'EOF'
+Uso:
+  adoc-get &lt;tipo&gt; &lt;archivo&gt;
+
+Tipos soportados:
+  style   Descarga un archivo CSS hacia ./res/styles/
+  script  Descarga un archivo JS hacia ./res/scripts/
+
+Ejemplos:
+  adoc-get style github-theme.css
+  adoc-get script theme-switcher.js
+EOF
+}
+
+if [[ $# -ne 2 ]]; then
+  show_help
+  exit 1
+fi
+
+TYPE="$1"
+FILE_NAME="$2"
+
+case "$TYPE" in
+  style)
+    SUBDIR="styles"
+    EXPECTED_EXT=".css"
+    ;;
+  script)
+    SUBDIR="scripts"
+    EXPECTED_EXT=".js"
+    ;;
+  -h|--help|help)
+    show_help
+    exit 0
+    ;;
+  *)
+    echo "Error: tipo no soportado: $TYPE"
+    echo
+    show_help
+    exit 1
+    ;;
+esac
+
+# Validación simple de extensión
+if [[ "$FILE_NAME" != *"$EXPECTED_EXT" ]]; then
+  echo "Error: el archivo debe tener extensión $EXPECTED_EXT"
+  exit 1
+fi
+
+TARGET_DIR="./res/${SUBDIR}"
+TARGET_FILE="${TARGET_DIR}/${FILE_NAME}"
+SOURCE_URL="${REPO_BASE}/${SUBDIR}/${FILE_NAME}"
+
+mkdir -p "$TARGET_DIR"
+
+echo "Descargando: $SOURCE_URL"
+curl -fL "$SOURCE_URL" -o "$TARGET_FILE"
+
+echo "Archivo guardado en: $TARGET_FILE"</code></pre>
+</div>
+</div>
+</div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2026-05-15 02:23:20 -0500
+Last updated 2026-05-15 21:42:47 -0500
 </div>
 </div>
 </body>

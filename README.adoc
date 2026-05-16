@@ -229,3 +229,11 @@ Se recomienda:
 1. Llamar al archivo "adoc-init" sin extensión.
 2. Agregar el directorio que lo contienen al PATH del sistema o del usuario en su defecto.
 3. Utilizar el comando "adoc-init [nombre documento adoc]" dentro de la terminal cada que se quiera inicializar un nuevo espacio de trabajo en un nuevo directorio.
+
+=== Script descarga recursos
+El siguiente es un script para descargar desde el repositorio actual archivos .css y .js.
+
+[source]
+----
+include::bin/adoc-get[attributes]
+----

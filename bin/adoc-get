@@ -1,0 +1,80 @@
+#!/usr/bin bash
+set -euo pipefail
+
+# ============================================================================
+# adoc-get
+# ----------------------------------------------------------------------------
+# Descarga recursos del repositorio:
+# https://github.com/JuanjoRosas/adoc-utilities
+#
+# Uso:
+#   adoc-get style  github-theme.css
+#   adoc-get script theme-switcher.js
+#
+# Archivos descargados en:
+#   ./res/styles/<archivo>
+#   ./res/scripts/<archivo>
+# ============================================================================
+
+REPO_BASE="https://raw.githubusercontent.com/JuanjoRosas/adoc-utilities/main/res"
+
+show_help() {
+  cat <<'EOF'
+Uso:
+  adoc-get <tipo> <archivo>
+
+Tipos soportados:
+  style   Descarga un archivo CSS hacia ./res/styles/
+  script  Descarga un archivo JS hacia ./res/scripts/
+
+Ejemplos:
+  adoc-get style github-theme.css
+  adoc-get script theme-switcher.js
+EOF
+}
+
+if [[ $# -ne 2 ]]; then
+  show_help
+  exit 1
+fi
+
+TYPE="$1"
+FILE_NAME="$2"
+
+case "$TYPE" in
+  style)
+    SUBDIR="styles"
+    EXPECTED_EXT=".css"
+    ;;
+  script)
+    SUBDIR="scripts"
+    EXPECTED_EXT=".js"
+    ;;
+  -h|--help|help)
+    show_help
+    exit 0
+    ;;
+  *)
+    echo "Error: tipo no soportado: $TYPE"
+    echo
+    show_help
+    exit 1
+    ;;
+esac
+
+# Validación simple de extensión
+if [[ "$FILE_NAME" != *"$EXPECTED_EXT" ]]; then
+  echo "Error: el archivo debe tener extensión $EXPECTED_EXT"
+  exit 1
+fi
+
+TARGET_DIR="./res/${SUBDIR}"
+TARGET_FILE="${TARGET_DIR}/${FILE_NAME}"
+SOURCE_URL="${REPO_BASE}/${SUBDIR}/${FILE_NAME}"
+
+mkdir -p "$TARGET_DIR"
+
+echo "Descargando: $SOURCE_URL"
+curl -fL "$SOURCE_URL" -o "$TARGET_FILE"
+
+echo "Archivo guardado en: $TARGET_FILE"
