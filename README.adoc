@@ -1,0 +1,231 @@
+= Estandares de uso de Asciidocs
+:toc-title: Contenido
+:toc: right
+:figure-caption: Figura
+:icons: font
+:stylesdir: ./res/styles/
+:stylesheet: github-md.css
+:docinfo: private
+:docinfodir: ./res/docinfo/
+:imagesdir: ./assets/imgs/
+:attachmentsdir: ./assets/attachments/
+:diagramsdir: ./assets/diagrams/
+:diagram-cachedir: ./.cache/diagrams/
+
+El presente proyecto tiene como objetivo la centralización y documentación del marco de trabajo para el uso de Asciidocs.
+
+== Dependencias requeridas
+
+=== Ruby
+
+Instalar Ruby usando https://rubyinstaller.org/downloads/[RubyInstaller para Windows].
+Elegir la versión *Ruby+Devkit* y durante la instalación seleccionar *"Just for me"* para no requerir permisos de administrador.
+
+=== Gemas de Ruby
+
+Una vez instalado Ruby, instalar las siguientes gemas desde la terminal:
+
+[source,powershell]
+----
+gem install asciidoctor
+gem install asciidoctor-pdf
+gem install asciidoctor-diagram
+gem install asciidoctor-diagram-plantuml
+----
+
+=== Java
+
+La gema `asciidoctor-diagram-plantuml` requiere *Java 11 como mínimo* para funcionar correctamente.
+Se recomienda instalar Java 21 LTS desde https://adoptium.net[Adoptium].
+
+IMPORTANT: Verificar que `JAVA_HOME` apunte a la versión correcta de Java. Si en el sistema existen múltiples instalaciones de Java (por ejemplo, una corporativa con Java 8), es necesario asegurarse que `JAVA_HOME` y el `PATH` prioricen la versión 11+. +
+En Windows esto se configura en: `sysdm.cpl` → *Variables de entorno* → *Variables de usuario*.
+
+Para verificar la versión activa:
+
+[source,bash]
+----
+java -version
+echo $JAVA_HOME   # en MINGW/bash
+----
+
+=== Extensión de VS Code
+
+Instalar la extensión *AsciiDoc by Asciidoctor* desde el marketplace de VS Code:
+
+[source]
+----
+asciidoctor.asciidoctor-vscode
+----
+
+== Configuración de VS Code
+
+=== settings.json
+
+Agregar las siguientes entradas en el `settings.json` de usuario (`Ctrl+Shift+P` → *Open User Settings JSON*):
+
+[source,jsonc]
+----
+// Habilita soporte de diagramas en el previsualizador vía Kroki
+"asciidoc.extensions.enableKroki": true,
+
+// Permite lectura de URIs externos en el preview
+"asciidoc.preview.asciidoctorAttributes": {
+    "allow-uri-read": ""
+},
+
+// Pasa la extensión asciidoctor-diagram al exportar PDF desde VS Code
+"asciidoc.pdf.asciidoctorPdfCommandArgs": [
+    "-r", "asciidoctor-diagram"
+]
+----
+
+NOTE: El previsualizador de diagramas depende del servicio externo https://kroki.io[kroki.io]. Si el servicio no está disponible, los diagramas no se renderizarán en el preview. La exportación a HTML y PDF no depende de Kroki y funciona completamente de forma local.
+
+NOTE: El atributo `:kroki-fetch-diagram:` *no está soportado* en la extensión de VS Code porque depende de una librería (`unxhr`) que no funciona en el entorno del webview.
+
+=== Atajos de teclado (keybindings.json)
+
+Agregar en `keybindings.json` (`Ctrl+Shift+P` → *Open Keyboard Shortcuts JSON*):
+
+[source,jsonc]
+----
+[
+    // Exportar HTML con diagramas (requiere terminal abierta en la carpeta del archivo)
+    {
+        "key": "ctrl+shift+h",
+        "command": "workbench.action.terminal.sendSequence",
+        "args": {
+            "text": "asciidoctor -r asciidoctor-diagram \"${fileBasename}\"\u000D"
+        },
+        "when": "terminalFocus"
+    },
+    // Exportar PDF con diagramas (requiere terminal abierta en la carpeta del archivo)
+    {
+        "key": "ctrl+shift+alt+p",
+        "command": "workbench.action.terminal.sendSequence",
+        "args": {
+            "text": "asciidoctor-pdf -D \"exports\" -r asciidoctor-diagram \"${fileBasename}\"\u000D"
+        },
+        "when": "terminalFocus"
+    }
+]
+----
+
+IMPORTANT: Estos atajos envían el comando a la terminal activa usando el nombre del archivo abierto en el editor. Para que funcionen correctamente: +
+1. La terminal integrada debe estar abierta y enfocada. +
+2. La terminal debe estar ubicada en la carpeta que contiene el archivo `.adoc`. +
+El resultado (HTML o PDF) se genera en una subcarpeta `exports/` dentro de esa carpeta.
+
+== Encabezado recomendado para cada documento
+
+Usar los siguientes atributos al inicio de cada archivo `.adoc`:
+
+[source,asciidoc]
+----
+:toc-title: Contenido
+:toc: right
+:figure-caption: Figura
+:icons: font
+//:stylesdir: ./res/styles/
+//:stylesheet: style.css
+//:docinfo: private
+//:docinfodir: ./res/docinfo/
+:imagesdir: ./assets/imgs/
+:attachmentsdir: ./assets/attachments/
+:diagramsdir: ./assets/diagrams/
+:diagram-cachedir: ./.cache/diagrams/
+----
+
+Descripción de cada atributo:
+
+`:toc-title:`:: Titulo de la tabla de contenido.
+
+`:toc: right`:: Tabla de contenidos ubicada a la derecha del documento.
+
+`:figure-caption:`:: Texto de prefijo para los títulos de figuras (por defecto en inglés: "Figure").
+
+`:icons:`:: vuelve los iconos usados fuente de texto.
+
+`:stylesdir:`:: Directorio en donde se encuentra la hoja de estilos (CSS) que va a ser usada para generar el HTML (se recomienda comentarla si no va a usar un estilo personalizado).
+
+`:stylesheet:`:: Nombre completo del archivo de la hoja de estilos (CSS) (se recomienda comentarla si no va a usar un estilo personalizado).
+
+`:docinfo:`:: Se usa para determinar la ubicación de un archivo Docinfo para agregar información adicional al archivo HTML creado. Para más información leer link:https://docs.asciidoctor.org/asciidoc/latest/docinfo/[documentación] (se recomienda comentarla si no va a agregar contenido personalizado).
+
+`:docinfodir:`:: Indica el directorio en donde se debe buscar el archivo Docinfo (se recomienda comentarla si no va a agregar contenido personalizado).
+
+`:imagesdir:`:: Directorio base para imágenes referenciadas en el documento.
+
+`:attachmentsdir:`:: Directorio base para archivos adjuntos.
+
+`:diagramsdir:`:: Directorio base para diagramas de texto plano utilizados dentro de notas.
+
+`:diagram-cachedir:`:: Carpeta donde se almacena el caché de diagramas generados. Evita regenerarlos en cada exportación si no cambiaron.
+
+== Exportación desde la terminal
+
+Si se prefiere exportar directamente desde la terminal sin usar los atajos de VS Code:
+
+=== HTML
+
+[source,bash]
+----
+asciidoctor -r asciidoctor-diagram nombre-archivo.adoc
+----
+
+=== PDF
+
+[source,bash]
+----
+asciidoctor-pdf -D "exports" -r asciidoctor-diagram nombre-archivo.adoc
+----
+
+El flag `-D "exports"` indica el directorio de salida. Se puede cambiar o eliminar para que el archivo se genere en la misma carpeta.
+
+== Estructura de carpetas recomendada
+
+[source]
+----
+📁 mi-documento/
+├── 📄 .gitignore
+├── 📄 readme.adoc    ← .adoc raíz y HTML generados
+├── 📁 exports/          ← PDF generados
+├── 📁 .cache/
+│   └── 📁 diagrams/     ← Caché de diagramas (diagram-cachedir)
+├──  📁 assets/
+|   ├── 📁 imgs/          ← Imágenes (imagesdir)
+|   ├── 📁 diagrams/          ← Diagramas (diagramsdir)
+|   └── 📁 attachments/   ← Adjuntos (attachmentsdir)
+└── 📁 res/
+    ├── 📁 docinfo/          ← Documentos docinfo (docinfodir)
+    ├── 📁 scripts/          ← Scripts personalizados
+    └── 📁 styles/          ← Archivos con los estílos personalizados (stylesheet & stylesdir)
+----
+
+== Recursos Adicionales
+
+=== Spell Check
+En VS code existe una extensión para la revisión de ortografía llamada Code Spell Checker. Se recomienda instalar dicha extensión y su diccionario en español. La siguiente es la configuración sugerida para Code Spell Checker:
+[source]
+----
+    "cSpell.language": "en,es",
+    "cSpell.enabledFileTypes": {
+        "*": false,
+        "markdown": true,
+        "asciidoc": true
+    }
+----
+
+=== Script inicialización
+El siguiente es un script para poder inicializar rápidamente el directorio de trabajo para asciidocs desde la terminal:
+[source]
+----
+include::bin/adoc-init[attributes]
+----
+
+Se recomienda:
+
+1. Llamar al archivo "adoc-init" sin extensión.
+2. Agregar el directorio que lo contienen al PATH del sistema o del usuario en su defecto.
+3. Utilizar el comando "adoc-init [nombre documento adoc]" dentro de la terminal cada que se quiera inicializar un nuevo espacio de trabajo en un nuevo directorio.

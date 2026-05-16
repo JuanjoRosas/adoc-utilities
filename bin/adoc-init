@@ -1,0 +1,93 @@
+# =============================================================
+#  adoc-init — Inicializa la estructura de carpetas para un
+#              proyecto AsciiDoc en el directorio actual.
+#
+#  Uso: adoc-init [nombre]
+#
+#  nombre: nombre del documento principal (default: README)
+# =============================================================
+
+#-----------------------VARIABLES-----------------------
+DOC_NAME="${1:-README}"
+TARGET_DIR="$(pwd)"
+
+ASSETS_DIR="$TARGET_DIR/assets"
+RESOURCES_DIR="$TARGET_DIR/res"
+DOCINFO_DIR="$RESOURCES_DIR/docinfo"
+SCRIPTS_DIR="$RESOURCES_DIR/scripts"
+
+SCRIPTS_REDIR_DOCSINFO="../scripts"
+
+ADOC_FILE="$TARGET_DIR/$DOC_NAME.adoc"
+DOCINFO_FILE="$DOCINFO_DIR/$DOC_NAME-docinfo.html"
+#-----------------------EOF VARIABLES-----------------------
+
+echo "Inicializando proyecto AsciiDoc en: $TARGET_DIR"
+
+#-----------------------FOLDER CREATION-----------------------
+mkdir -p \
+  "$TARGET_DIR/exports" \
+  "$ASSETS_DIR/imgs" \
+  "$ASSETS_DIR/diagrams" \
+  "$ASSETS_DIR/attachments" \
+  "$TARGET_DIR/.cache/diagrams" \
+  "$DOCINFO_DIR" \
+  "$SCRIPTS_DIR" \
+  "$RESOURCES_DIR/styles" \
+#-----------------------EOF FOLDER CREATION-----------------------
+
+#-----------------------ADOC CREATION-----------------------
+cat > "$ADOC_FILE" <<EOF
+= $DOC_NAME
+:toc-title: Contenido
+:toc: right
+:figure-caption: Figura
+:icons: font
+//:stylesdir: ./res/styles/
+//:stylesheet: style.css
+//:docinfo: private
+//:docinfodir: ./res/docinfo/
+:imagesdir: ./assets/imgs/
+:attachmentsdir: ./assets/attachments/
+:diagramsdir: ./assets/diagrams/
+:diagram-cachedir: ./.cache/diagrams/
+
+== Lorem Ipsum
+EOF
+#-----------------------EOF ADOC CREATION-----------------------
+
+#-----------------------DOCINFO CREATION-----------------------
+cat > "$DOCINFO_FILE" <<EOF
+<script src="$SCRIPTS_REDIR/someScript.js"></script>
+EOF
+#-----------------------EOF DOCINFO CREATION-----------------------
+
+#-----------------------GITIGNORE CREATION-----------------------
+cat > ".gitignore" <<EOF
+.*/
+exports/
+assets/attachments/
+assets/imgs/
+EOF
+#-----------------------EOF GITIGNORE CREATION-----------------------
+
+echo ""
+echo "Estructura creada:"
+echo ""
+echo "  $(basename "$TARGET_DIR")/"
+echo "  ├── $DOC_NAME.adoc"
+echo "  ├── .gitignore"
+echo "  ├── exports/"
+echo "  ├── assets/"
+echo "  │   ├── imgs/"
+echo "  │   ├── diagrams/"
+echo "  │   └── attachments/"
+echo "  ├── res/"
+echo "  │   ├── docinfo/"
+echo "          └── $DOC_NAME-docinfo.html"
+echo "  │   ├── scripts/"
+echo "  │   └── styles/"
+echo "  └── .cache/"
+echo "      └── diagrams/"
+echo ""
+echo "Listo."

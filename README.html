@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.26">
+<title>Estandares de uso de Asciidocs</title>
+<style>
+/* ==========================================================================
+   Asciidoctor GitHub Theme
+   Inspirado en github-markdown-css
+   ========================================================================== */
+
+/* Tema claro */
+:root {
+  --color-bg: #ffffff;
+  --color-bg-secondary: #f6f8fa;
+  --color-border: #d0d7de;
+  --color-text: #24292f;
+  --color-text-muted: #57606a;
+  --color-link: #0969da;
+  --color-link-hover: #0550ae;
+  --color-code-bg: rgba(175, 184, 193, 0.2);
+  --color-pre-bg: #f6f8fa;
+
+  --toc-width: 280px;
+}
+
+/* Tema oscuro */
+[data-theme="dark"] {
+  --color-bg: #0d1117;
+  --color-bg-secondary: #161b22;
+  --color-border: #30363d;
+  --color-text: #c9d1d9;
+  --color-text-muted: #8b949e;
+  --color-link: #58a6ff;
+  --color-link-hover: #79c0ff;
+  --color-code-bg: rgba(110, 118, 129, 0.4);
+  --color-pre-bg: #161b22;
+}
+
+/* ==========================================================================
+   Base
+   ========================================================================== */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    "Noto Sans",
+    Helvetica,
+    Arial,
+    sans-serif;
+  line-height: 1.6;
+  word-wrap: break-word;
+}
+
+a {
+  color: var(--color-link);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--color-link-hover);
+  text-decoration: underline;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* ==========================================================================
+   Layout general
+   ========================================================================== */
+
+#header,
+#content,
+#footnotes {
+  max-width: var(--content-width);
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+#content {
+  padding-top: 24px;
+  padding-bottom: 48px;
+}
+
+#footer {
+  margin-top: 48px;
+  padding: 24px 32px;
+  border-top: 1px solid var(--color-border);
+  background: var(--color-bg-secondary);
+}
+
+#footer-text {
+  max-width: var(--content-width);
+  margin: 0 auto;
+  color: var(--color-text-muted);
+  font-size: 0.875rem;
+}
+
+/* ==========================================================================
+   Encabezado
+   ========================================================================== */
+
+#header {
+  padding-top: 32px;
+  padding-bottom: 16px;
+}
+
+#header > h1 {
+  margin: 0;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--color-border);
+  font-size: 2rem;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+/* ==========================================================================
+   Tabla de contenido lateral (toc2 toc-right)
+   ========================================================================== */
+
+@media (min-width: 1280px) {
+  body.toc2.toc-right {
+    padding-right: calc(var(--toc-width) + 80px);
+  }
+
+  #toc.toc2 {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: var(--toc-width);
+    height: 100vh;
+    overflow-y: auto;
+    padding: 32px 24px;
+    border-left: 1px solid var(--color-border);
+    background: var(--color-bg-secondary);
+  }
+}
+
+#toctitle {
+  margin: 0 0 16px 0;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+#toc ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+#toc li {
+  margin: 0.25rem 0;
+}
+
+#toc ul ul {
+  margin-left: 1rem;
+}
+
+#toc a {
+  display: block;
+  padding: 2px 0;
+  color: var(--color-text-muted);
+  font-size: 0.9375rem;
+}
+
+#toc a:hover {
+  color: var(--color-link);
+  text-decoration: none;
+}
+
+/* ==========================================================================
+   Tipografía
+   ========================================================================== */
+
+h1, h2, h3, h4, h5, h6 {
+  margin-top: 1.5em;
+  margin-bottom: 0.75em;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+h1 {
+  font-size: 2rem;
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: 0.3em;
+}
+
+h2 {
+  font-size: 1.5rem;
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: 0.3em;
+}
+
+h3 {
+  font-size: 1.25rem;
+}
+
+h4 {
+  font-size: 1rem;
+}
+
+p {
+  margin: 0 0 1rem;
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid var(--color-border);
+  margin: 24px 0;
+}
+
+/* ==========================================================================
+   Listas
+   ========================================================================== */
+
+ul,
+ol {
+  margin: 0 0 1rem 1.5rem;
+  padding: 0;
+}
+
+li {
+  margin: 0.25rem 0;
+}
+
+dt {
+  font-weight: 600;
+  margin-top: 1rem;
+}
+
+dd {
+  margin-left: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+/* ==========================================================================
+   Bloques de código
+   ========================================================================== */
+
+code,
+kbd {
+  font-family:
+    ui-monospace,
+    SFMono-Regular,
+    SFMono-Regular,
+    Consolas,
+    "Liberation Mono",
+    Menlo,
+    monospace;
+  font-size: 0.875em;
+}
+
+:not(pre) > code {
+  padding: 0.2em 0.4em;
+  background: var(--color-code-bg);
+  border-radius: 6px;
+}
+
+pre {
+  margin: 0 0 1rem;
+  padding: 16px;
+  overflow: auto;
+  background: var(--color-pre-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  line-height: 1.45;
+}
+
+pre code {
+  padding: 0;
+  background: transparent;
+  border-radius: 0;
+}
+
+/* ==========================================================================
+   Citas
+   ========================================================================== */
+
+blockquote {
+  margin: 0 0 1rem;
+  padding: 0 1rem;
+  color: var(--color-text-muted);
+  border-left: 4px solid var(--color-blockquote-border);
+}
+
+/* ==========================================================================
+   Tablas
+   ========================================================================== */
+
+table {
+  width: 100%;
+  margin: 0 0 1rem;
+  border-collapse: collapse;
+  display: block;
+  overflow-x: auto;
+}
+
+th,
+td {
+  padding: 6px 13px;
+  border: 1px solid var(--color-border);
+}
+
+th {
+  font-weight: 600;
+  background: var(--color-bg-secondary);
+}
+
+tr:nth-child(even) {
+  background: var(--color-table-row);
+}
+
+/* ==========================================================================
+   Imágenes
+   ========================================================================== */
+
+.imageblock {
+  margin: 1.5rem 0;
+  text-align: center;
+}
+
+.imageblock > .title {
+  margin-top: 0.5rem;
+  color: var(--color-text-muted);
+  font-size: 0.875rem;
+}
+
+/* ==========================================================================
+   Bloques especiales
+   ========================================================================== */
+
+.admonitionblock {
+  margin: 1.5rem 0;
+}
+
+.admonitionblock > table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.admonitionblock td {
+  border: none;
+  padding: 0;
+}
+
+.admonitionblock td.icon {
+  width: 4rem;
+  text-align: center;
+  vertical-align: top;
+  padding-right: 1rem;
+}
+
+.admonitionblock td.content {
+  padding: 1rem;
+  border-left: 4px solid var(--color-note);
+  background: var(--color-bg-secondary);
+  border-radius: 0 6px 6px 0;
+}
+
+.admonitionblock td.icon .title {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+}
+
+.admonitionblock td.content > :last-child {
+  margin-bottom: 0;
+}
+
+/* Colores por tipo */
+.admonitionblock td.icon .icon-note::before,
+.admonitionblock td.content .title {
+  color: var(--color-note);
+}
+
+.admonitionblock td.icon .icon-tip::before {
+  color: var(--color-tip);
+}
+
+.admonitionblock td.icon .icon-warning::before {
+  color: var(--color-warning);
+}
+
+.admonitionblock td.icon .icon-important::before {
+  color: var(--color-important);
+}
+
+.admonitionblock td.icon .icon-caution::before {
+  color: var(--color-caution);
+}
+
+/* ==========================================================================
+   Example / Sidebar
+   ========================================================================== */
+
+.exampleblock > .content,
+.sidebarblock {
+  margin: 1.5rem 0;
+  padding: 1rem;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  background: var(--color-bg-secondary);
+}
+
+.sidebarblock > .content > .title,
+.exampleblock > .title {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+/* ==========================================================================
+   Anchors
+   ========================================================================== */
+
+a.anchor {
+  float: left;
+  margin-left: -1.25em;
+  padding-right: 0.25em;
+  color: var(--color-link);
+  opacity: 0;
+}
+
+h1:hover > a.anchor,
+h2:hover > a.anchor,
+h3:hover > a.anchor,
+h4:hover > a.anchor,
+h5:hover > a.anchor,
+h6:hover > a.anchor {
+  opacity: 1;
+}
+
+/* ==========================================================================
+   Footnotes
+   ========================================================================== */
+
+#footnotes {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--color-border);
+}
+
+#footnotes .footnote {
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+}
+
+/* ==========================================================================
+   Responsive
+   ========================================================================== */
+
+@media (max-width: 1279px) {
+  #toc.toc2 {
+    position: static;
+    width: auto;
+    height: auto;
+    margin-top: 1rem;
+    padding: 1rem;
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    background: var(--color-bg-secondary);
+  }
+}
+
+@media (max-width: 768px) {
+  #header,
+  #content,
+  #footnotes,
+  #footer {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  #header > h1 {
+    font-size: 1.75rem;
+  }
+
+  h1 {
+    font-size: 1.75rem;
+  }
+
+  h2 {
+    font-size: 1.375rem;
+  }
+
+  h3 {
+    font-size: 1.125rem;
+  }
+}
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="res/scripts/themeSwitcher.js"></script>
+</head>
+<body class="article toc2 toc-right">
+<div id="header">
+<h1>Estandares de uso de Asciidocs</h1>
+<div id="toc" class="toc2">
+<div id="toctitle">Contenido</div>
+<ul class="sectlevel1">
+<li><a href="#_dependencias_requeridas">Dependencias requeridas</a>
+<ul class="sectlevel2">
+<li><a href="#_ruby">Ruby</a></li>
+<li><a href="#_gemas_de_ruby">Gemas de Ruby</a></li>
+<li><a href="#_java">Java</a></li>
+<li><a href="#_extensión_de_vs_code">Extensión de VS Code</a></li>
+</ul>
+</li>
+<li><a href="#_configuración_de_vs_code">Configuración de VS Code</a>
+<ul class="sectlevel2">
+<li><a href="#_settings_json">settings.json</a></li>
+<li><a href="#_atajos_de_teclado_keybindings_json">Atajos de teclado (keybindings.json)</a></li>
+</ul>
+</li>
+<li><a href="#_encabezado_recomendado_para_cada_documento">Encabezado recomendado para cada documento</a></li>
+<li><a href="#_exportación_desde_la_terminal">Exportación desde la terminal</a>
+<ul class="sectlevel2">
+<li><a href="#_html">HTML</a></li>
+<li><a href="#_pdf">PDF</a></li>
+</ul>
+</li>
+<li><a href="#_estructura_de_carpetas_recomendada">Estructura de carpetas recomendada</a></li>
+<li><a href="#_recursos_adicionales">Recursos Adicionales</a>
+<ul class="sectlevel2">
+<li><a href="#_spell_check">Spell Check</a></li>
+<li><a href="#_script_inicialización">Script inicialización</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>El presente proyecto tiene como objetivo la centralización y documentación del marco de trabajo para el uso de Asciidocs.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_dependencias_requeridas">Dependencias requeridas</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_ruby">Ruby</h3>
+<div class="paragraph">
+<p>Instalar Ruby usando <a href="https://rubyinstaller.org/downloads/">RubyInstaller para Windows</a>.
+Elegir la versión <strong>Ruby+Devkit</strong> y durante la instalación seleccionar <strong>"Just for me"</strong> para no requerir permisos de administrador.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_gemas_de_ruby">Gemas de Ruby</h3>
+<div class="paragraph">
+<p>Una vez instalado Ruby, instalar las siguientes gemas desde la terminal:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-powershell" data-lang="powershell">gem install asciidoctor
+gem install asciidoctor-pdf
+gem install asciidoctor-diagram
+gem install asciidoctor-diagram-plantuml</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_java">Java</h3>
+<div class="paragraph">
+<p>La gema <code>asciidoctor-diagram-plantuml</code> requiere <strong>Java 11 como mínimo</strong> para funcionar correctamente.
+Se recomienda instalar Java 21 LTS desde <a href="https://adoptium.net">Adoptium</a>.</p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+Verificar que <code>JAVA_HOME</code> apunte a la versión correcta de Java. Si en el sistema existen múltiples instalaciones de Java (por ejemplo, una corporativa con Java 8), es necesario asegurarse que <code>JAVA_HOME</code> y el <code>PATH</code> prioricen la versión 11+.<br>
+En Windows esto se configura en: <code>sysdm.cpl</code> → <strong>Variables de entorno</strong> → <strong>Variables de usuario</strong>.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Para verificar la versión activa:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">java -version
+echo $JAVA_HOME   # en MINGW/bash</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_extensión_de_vs_code">Extensión de VS Code</h3>
+<div class="paragraph">
+<p>Instalar la extensión <strong>AsciiDoc by Asciidoctor</strong> desde el marketplace de VS Code:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>asciidoctor.asciidoctor-vscode</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_configuración_de_vs_code">Configuración de VS Code</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_settings_json">settings.json</h3>
+<div class="paragraph">
+<p>Agregar las siguientes entradas en el <code>settings.json</code> de usuario (<code>Ctrl+Shift+P</code> → <strong>Open User Settings JSON</strong>):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-jsonc" data-lang="jsonc">// Habilita soporte de diagramas en el previsualizador vía Kroki
+"asciidoc.extensions.enableKroki": true,
+
+// Permite lectura de URIs externos en el preview
+"asciidoc.preview.asciidoctorAttributes": {
+    "allow-uri-read": ""
+},
+
+// Pasa la extensión asciidoctor-diagram al exportar PDF desde VS Code
+"asciidoc.pdf.asciidoctorPdfCommandArgs": [
+    "-r", "asciidoctor-diagram"
+]</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+El previsualizador de diagramas depende del servicio externo <a href="https://kroki.io">kroki.io</a>. Si el servicio no está disponible, los diagramas no se renderizarán en el preview. La exportación a HTML y PDF no depende de Kroki y funciona completamente de forma local.
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+El atributo <code>:kroki-fetch-diagram:</code> <strong>no está soportado</strong> en la extensión de VS Code porque depende de una librería (<code>unxhr</code>) que no funciona en el entorno del webview.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_atajos_de_teclado_keybindings_json">Atajos de teclado (keybindings.json)</h3>
+<div class="paragraph">
+<p>Agregar en <code>keybindings.json</code> (<code>Ctrl+Shift+P</code> → <strong>Open Keyboard Shortcuts JSON</strong>):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-jsonc" data-lang="jsonc">[
+    // Exportar HTML con diagramas (requiere terminal abierta en la carpeta del archivo)
+    {
+        "key": "ctrl+shift+h",
+        "command": "workbench.action.terminal.sendSequence",
+        "args": {
+            "text": "asciidoctor -r asciidoctor-diagram \"${fileBasename}\"\u000D"
+        },
+        "when": "terminalFocus"
+    },
+    // Exportar PDF con diagramas (requiere terminal abierta en la carpeta del archivo)
+    {
+        "key": "ctrl+shift+alt+p",
+        "command": "workbench.action.terminal.sendSequence",
+        "args": {
+            "text": "asciidoctor-pdf -D \"exports\" -r asciidoctor-diagram \"${fileBasename}\"\u000D"
+        },
+        "when": "terminalFocus"
+    }
+]</code></pre>
+</div>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+Estos atajos envían el comando a la terminal activa usando el nombre del archivo abierto en el editor. Para que funcionen correctamente:<br>
+1. La terminal integrada debe estar abierta y enfocada.<br>
+2. La terminal debe estar ubicada en la carpeta que contiene el archivo <code>.adoc</code>.<br>
+El resultado (HTML o PDF) se genera en una subcarpeta <code>exports/</code> dentro de esa carpeta.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_encabezado_recomendado_para_cada_documento">Encabezado recomendado para cada documento</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Usar los siguientes atributos al inicio de cada archivo <code>.adoc</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-asciidoc" data-lang="asciidoc">:toc-title: Contenido
+:toc: right
+:figure-caption: Figura
+:icons: font
+//:stylesdir: ./res/styles/
+//:stylesheet: style.css
+//:docinfo: private
+//:docinfodir: ./res/docinfo/
+:imagesdir: ./assets/imgs/
+:attachmentsdir: ./assets/attachments/
+:diagramsdir: ./assets/diagrams/
+:diagram-cachedir: ./.cache/diagrams/</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Descripción de cada atributo:</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><code>:toc-title:</code></dt>
+<dd>
+<p>Titulo de la tabla de contenido.</p>
+</dd>
+<dt class="hdlist1"><code>:toc: right</code></dt>
+<dd>
+<p>Tabla de contenidos ubicada a la derecha del documento.</p>
+</dd>
+<dt class="hdlist1"><code>:figure-caption:</code></dt>
+<dd>
+<p>Texto de prefijo para los títulos de figuras (por defecto en inglés: "Figure").</p>
+</dd>
+<dt class="hdlist1"><code>:icons:</code></dt>
+<dd>
+<p>vuelve los iconos usados fuente de texto.</p>
+</dd>
+<dt class="hdlist1"><code>:stylesdir:</code></dt>
+<dd>
+<p>Directorio en donde se encuentra la hoja de estilos (CSS) que va a ser usada para generar el HTML (se recomienda comentarla si no va a usar un estilo personalizado).</p>
+</dd>
+<dt class="hdlist1"><code>:stylesheet:</code></dt>
+<dd>
+<p>Nombre completo del archivo de la hoja de estilos (CSS) (se recomienda comentarla si no va a usar un estilo personalizado).</p>
+</dd>
+<dt class="hdlist1"><code>:docinfo:</code></dt>
+<dd>
+<p>Se usa para determinar la ubicación de un archivo Docinfo para agregar información adicional al archivo HTML creado. Para más información leer <a href="https://docs.asciidoctor.org/asciidoc/latest/docinfo/">documentación</a> (se recomienda comentarla si no va a agregar contenido personalizado).</p>
+</dd>
+<dt class="hdlist1"><code>:docinfodir:</code></dt>
+<dd>
+<p>Indica el directorio en donde se debe buscar el archivo Docinfo (se recomienda comentarla si no va a agregar contenido personalizado).</p>
+</dd>
+<dt class="hdlist1"><code>:imagesdir:</code></dt>
+<dd>
+<p>Directorio base para imágenes referenciadas en el documento.</p>
+</dd>
+<dt class="hdlist1"><code>:attachmentsdir:</code></dt>
+<dd>
+<p>Directorio base para archivos adjuntos.</p>
+</dd>
+<dt class="hdlist1"><code>:diagramsdir:</code></dt>
+<dd>
+<p>Directorio base para diagramas de texto plano utilizados dentro de notas.</p>
+</dd>
+<dt class="hdlist1"><code>:diagram-cachedir:</code></dt>
+<dd>
+<p>Carpeta donde se almacena el caché de diagramas generados. Evita regenerarlos en cada exportación si no cambiaron.</p>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_exportación_desde_la_terminal">Exportación desde la terminal</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Si se prefiere exportar directamente desde la terminal sin usar los atajos de VS Code:</p>
+</div>
+<div class="sect2">
+<h3 id="_html">HTML</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">asciidoctor -r asciidoctor-diagram nombre-archivo.adoc</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_pdf">PDF</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">asciidoctor-pdf -D "exports" -r asciidoctor-diagram nombre-archivo.adoc</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>El flag <code>-D "exports"</code> indica el directorio de salida. Se puede cambiar o eliminar para que el archivo se genere en la misma carpeta.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_estructura_de_carpetas_recomendada">Estructura de carpetas recomendada</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>📁 mi-documento/
+├── 📄 .gitignore
+├── 📄 readme.adoc    ← .adoc raíz y HTML generados
+├── 📁 exports/          ← PDF generados
+├── 📁 .cache/
+│   └── 📁 diagrams/     ← Caché de diagramas (diagram-cachedir)
+├──  📁 assets/
+|   ├── 📁 imgs/          ← Imágenes (imagesdir)
+|   ├── 📁 diagrams/          ← Diagramas (diagramsdir)
+|   └── 📁 attachments/   ← Adjuntos (attachmentsdir)
+└── 📁 res/
+    ├── 📁 docinfo/          ← Documentos docinfo (docinfodir)
+    ├── 📁 scripts/          ← Scripts personalizados
+    └── 📁 styles/          ← Archivos con los estílos personalizados (stylesheet &amp; stylesdir)</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_recursos_adicionales">Recursos Adicionales</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_spell_check">Spell Check</h3>
+<div class="paragraph">
+<p>En VS code existe una extensión para la revisión de ortografía llamada Code Spell Checker. Se recomienda instalar dicha extensión y su diccionario en español. La siguiente es la configuración sugerida para Code Spell Checker:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>    "cSpell.language": "en,es",
+    "cSpell.enabledFileTypes": {
+        "*": false,
+        "markdown": true,
+        "asciidoc": true
+    }</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_script_inicialización">Script inicialización</h3>
+<div class="paragraph">
+<p>El siguiente es un script para poder inicializar rápidamente el directorio de trabajo para asciidocs desde la terminal:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code># =============================================================
+#  adoc-init — Inicializa la estructura de carpetas para un
+#              proyecto AsciiDoc en el directorio actual.
+#
+#  Uso: adoc-init [nombre]
+#
+#  nombre: nombre del documento principal (default: README)
+# =============================================================
+
+#-----------------------VARIABLES-----------------------
+DOC_NAME="${1:-README}"
+TARGET_DIR="$(pwd)"
+
+ASSETS_DIR="$TARGET_DIR/assets"
+RESOURCES_DIR="$TARGET_DIR/res"
+DOCINFO_DIR="$RESOURCES_DIR/docinfo"
+SCRIPTS_DIR="$RESOURCES_DIR/scripts"
+
+SCRIPTS_REDIR_DOCSINFO="../scripts"
+
+ADOC_FILE="$TARGET_DIR/$DOC_NAME.adoc"
+DOCINFO_FILE="$DOCINFO_DIR/$DOC_NAME-docinfo.html"
+#-----------------------EOF VARIABLES-----------------------
+
+echo "Inicializando proyecto AsciiDoc en: $TARGET_DIR"
+
+#-----------------------FOLDER CREATION-----------------------
+mkdir -p \
+  "$TARGET_DIR/exports" \
+  "$ASSETS_DIR/imgs" \
+  "$ASSETS_DIR/diagrams" \
+  "$ASSETS_DIR/attachments" \
+  "$TARGET_DIR/.cache/diagrams" \
+  "$DOCINFO_DIR" \
+  "$SCRIPTS_DIR" \
+  "$RESOURCES_DIR/styles" \
+#-----------------------EOF FOLDER CREATION-----------------------
+
+#-----------------------ADOC CREATION-----------------------
+cat &gt; "$ADOC_FILE" &lt;&lt;EOF
+= $DOC_NAME
+:toc-title: Contenido
+:toc: right
+:figure-caption: Figura
+:icons: font
+//:stylesdir: ./res/styles/
+//:stylesheet: style.css
+//:docinfo: private
+//:docinfodir: ./res/docinfo/
+:imagesdir: ./assets/imgs/
+:attachmentsdir: ./assets/attachments/
+:diagramsdir: ./assets/diagrams/
+:diagram-cachedir: ./.cache/diagrams/
+
+== Lorem Ipsum
+EOF
+#-----------------------EOF ADOC CREATION-----------------------
+
+#-----------------------DOCINFO CREATION-----------------------
+cat &gt; "$DOCINFO_FILE" &lt;&lt;EOF
+&lt;script src="$SCRIPTS_REDIR/someScript.js"&gt;&lt;/script&gt;
+EOF
+#-----------------------EOF DOCINFO CREATION-----------------------
+
+#-----------------------GITIGNORE CREATION-----------------------
+cat &gt; ".gitignore" &lt;&lt;EOF
+.*/
+exports/
+assets/attachments/
+assets/imgs/
+EOF
+#-----------------------EOF GITIGNORE CREATION-----------------------
+
+echo ""
+echo "Estructura creada:"
+echo ""
+echo "  $(basename "$TARGET_DIR")/"
+echo "  ├── $DOC_NAME.adoc"
+echo "  ├── .gitignore"
+echo "  ├── exports/"
+echo "  ├── assets/"
+echo "  │   ├── imgs/"
+echo "  │   ├── diagrams/"
+echo "  │   └── attachments/"
+echo "  ├── res/"
+echo "  │   ├── docinfo/"
+echo "          └── $DOC_NAME-docinfo.html"
+echo "  │   ├── scripts/"
+echo "  │   └── styles/"
+echo "  └── .cache/"
+echo "      └── diagrams/"
+echo ""
+echo "Listo."</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Se recomienda:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Llamar al archivo "adoc-init" sin extensión.</p>
+</li>
+<li>
+<p>Agregar el directorio que lo contienen al PATH del sistema o del usuario en su defecto.</p>
+</li>
+<li>
+<p>Utilizar el comando "adoc-init [nombre documento adoc]" dentro de la terminal cada que se quiera inicializar un nuevo espacio de trabajo en un nuevo directorio.</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2026-05-15 02:23:20 -0500
+</div>
+</div>
+</body>
+</html>
