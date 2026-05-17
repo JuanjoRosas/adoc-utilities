@@ -30,6 +30,7 @@ echo "Inicializando proyecto AsciiDoc en: $TARGET_DIR"
 #-----------------------FOLDER CREATION-----------------------
 mkdir -p \
   "$TARGET_DIR/exports" \
+  "$TARGET_DIR/build" \
   "$ASSETS_DIR/imgs" \
   "$ASSETS_DIR/diagrams" \
   "$ASSETS_DIR/attachments" \
@@ -81,6 +82,7 @@ echo "  $(basename "$TARGET_DIR")/"
 echo "  ├── $DOC_NAME.adoc"
 echo "  ├── .gitignore"
 echo "  ├── exports/"
+echo "  ├── build/"
 echo "  ├── assets/"
 echo "  │   ├── imgs/"
 echo "  │   ├── diagrams/"
