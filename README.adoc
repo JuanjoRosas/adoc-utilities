@@ -237,11 +237,3 @@ El siguiente es un script para descargar desde el repositorio actual archivos .c
 ----
 include::bin/adoc-get[attributes]
 ----
-
-=== Script build
-El siguiente es un script que genera una carpeta con todos los archivos pdf y html construidos.
-
-[source]
-----
-include::bin/adoc-build[attributes]
-----
