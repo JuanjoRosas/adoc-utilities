@@ -616,6 +616,7 @@ h6:hover > a.anchor {
 <li><a href="#_spell_check">Spell Check</a></li>
 <li><a href="#_script_inicialización">Script inicialización</a></li>
 <li><a href="#_script_descarga_recursos">Script descarga recursos</a></li>
+<li><a href="#_script_build">Script build</a></li>
 </ul>
 </li>
 </ul>
@@ -1151,12 +1152,101 @@ echo "Archivo guardado en: $TARGET_FILE"</code></pre>
 </div>
 </div>
 </div>
+<div class="sect2">
+<h3 id="_script_build">Script build</h3>
+<div class="paragraph">
+<p>El siguiente es un script que genera una carpeta con todos los archivos pdf y html construidos.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code># ==========================================================
+# adoc-build
+#
+# Estructura generada:
+#   ./build/
+#   ./build/assets/
+#   ./build/res/scripts/
+#
+# Contenido copiado:
+#   ./assets/*        -&gt; ./build/assets/
+#   ./res/scripts/*   -&gt; ./build/res/scripts/
+#   ./exports/*       -&gt; ./build/
+#   ./*.html          -&gt; ./build/
+# ==========================================================
+
+BUILD_DIR="./build"
+
+echo "Limpiando build anterior..."
+rm -rf "$BUILD_DIR"
+
+echo "Creando estructura de directorios..."
+mkdir -p "$BUILD_DIR"
+mkdir -p "$BUILD_DIR/assets"
+mkdir -p "$BUILD_DIR/res/scripts"
+
+# ----------------------------------------------------------
+# 1) Copiar assets
+# ----------------------------------------------------------
+if [ -d "./assets" ]; then
+    echo "Copiando ./assets -&gt; ./build/assets"
+    cp -R ./assets/. "$BUILD_DIR/assets/"
+else
+    echo "Aviso: no existe ./assets"
+fi
+
+# ----------------------------------------------------------
+# 2) Copiar scripts
+# ----------------------------------------------------------
+if [ -d "./res/scripts" ]; then
+    echo "Copiando ./res/scripts -&gt; ./build/res/scripts"
+    cp -R ./res/scripts/. "$BUILD_DIR/res/scripts/"
+else
+    echo "Aviso: no existe ./res/scripts"
+fi
+
+# ----------------------------------------------------------
+# 3) Copiar archivos PDF de ./exports
+# ----------------------------------------------------------
+if [ -d "./exports" ]; then
+    echo "Copiando ./exports/*.pdf -&gt; ./build"
+    shopt -s nullglob
+    pdf_files=(./exports/*.pdf)
+
+    if [ ${#pdf_files[@]} -gt 0 ]; then
+        cp "${pdf_files[@]}" "$BUILD_DIR/"
+    else
+        echo "Aviso: no se encontraron archivos .pdf en ./exports"
+    fi
+    shopt -u nullglob
+else
+    echo "Aviso: no existe ./exports"
+fi
+
+# ----------------------------------------------------------
+# 4) Copiar archivos HTML de la raíz
+# ----------------------------------------------------------
+echo "Copiando archivos HTML de la raíz..."
+
+shopt -s nullglob
+html_files=(./*.html)
+
+if [ ${#html_files[@]} -gt 0 ]; then
+    cp "${html_files[@]}" "$BUILD_DIR/"
+else
+    echo "Aviso: no se encontraron archivos .html en la raíz"
+fi
+shopt -u nullglob
+
+echo "Build completado exitosamente."</code></pre>
+</div>
+</div>
+</div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2026-05-15 21:42:47 -0500
+Last updated 2026-05-17 03:20:23 -0500
 </div>
 </div>
 </body>
