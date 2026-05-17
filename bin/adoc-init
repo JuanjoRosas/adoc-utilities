@@ -1,6 +1,3 @@
-#!/usr/bin bash
-set -euo pipefail
-
 # =============================================================
 #  adoc-init — Inicializa la estructura de carpetas para un
 #              proyecto AsciiDoc en el directorio actual.
